@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+# treehouse-pick — tabular fzf picker over every treehouse worktree in every pool.
+# Prints the selected worktree path. Used by the `lw` alias, which cds into it.
+#
+# `treehouse status` only works inside a repo, so for each pool under the
+# treehouse root we run it from inside one of that pool's worktrees.
+set -euo pipefail
+
+root="${TREEHOUSE_ROOT:-$HOME/.treehouse}"
+
+for cmd in treehouse fzf jq; do
+  command -v "$cmd" >/dev/null || { echo "treehouse-pick: $cmd not installed" >&2; exit 1; }
+done
+[[ -d "$root" ]] || { echo "treehouse-pick: no treehouse root at $root" >&2; exit 1; }
+
+# Emit TSV rows: repo, name, status, branch, path
+rows() {
+  local pool state repo wt
+  for pool in "$root"/*/; do
+    state="$pool/treehouse-state.json"
+    [[ -f "$state" ]] || continue
+    repo="$(basename "$pool")"
+    repo="${repo%-*}"   # strip pool hash suffix: maison-ab59b8 -> maison
+
+    # any existing worktree in the pool will do as a cwd for `treehouse status`
+    wt="$(jq -r '.worktrees[].path' "$state" | while read -r p; do [[ -d "$p" ]] && { echo "$p"; break; }; done)"
+    [[ -n "$wt" ]] || continue
+
+    (cd "$wt" && treehouse status --json 2>/dev/null) |
+      jq -r --arg repo "$repo" '.[] | [
+          $repo,
+          .name,
+          .status,
+          (if (.branch // "") == "" then "(detached)" else .branch end),
+          .path
+        ] | @tsv'
+  done
+}
+
+data="$(rows)"
+[[ -n "$data" ]] || { echo "treehouse-pick: no worktrees found" >&2; exit 1; }
+
+# Pretty table for display (with ~ paths); raw path kept in a hidden tab field.
+table="$(printf 'REPO\tWT\tSTATUS\tBRANCH\tPATH\n%s\n' "$data" |
+  sed "s|$HOME|~|g" | column -t -s $'\t')"
+paths="$(printf 'PATH\n%s\n' "$data" | cut -f5)"
+
+paste -d $'\t' <(echo "$table") <(echo "$paths") |
+  fzf --prompt='worktree> ' \
+      --header-lines=1 \
+      --delimiter=$'\t' --with-nth=1 \
+      --height=60% --reverse --border \
+      --query="${1:-}" \
+      --preview='git -C {2} status -sb 2>/dev/null; echo; git -C {2} log --oneline --color=always -15 2>/dev/null' \
+      --preview-window='down,50%' |
+  cut -f2

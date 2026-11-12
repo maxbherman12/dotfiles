@@ -1,0 +1,41 @@
+# ~/.config/ghostty/config.ghostty — managed by ~/dotfiles (stow package: ghostty)
+# Reference: ghostty +show-config --default --docs | less
+# Reload with cmd+shift+, after editing.
+
+# --- Font ---------------------------------------------------------------
+font-family = JetBrainsMono Nerd Font
+font-size = 14
+font-thicken = true
+adjust-cell-height = 10%
+
+# --- Theme --------------------------------------------------------------
+# list themes: ghostty +list-themes
+theme = TokyoNight Night
+
+# --- Window -------------------------------------------------------------
+background-opacity = 0.8
+background-blur-radius = 8
+window-decoration = true
+window-padding-x = 10
+window-padding-y = 8
+window-padding-balance = true
+window-save-state = always
+macos-titlebar-style = tabs
+
+# --- Behavior -----------------------------------------------------------
+cursor-style = block
+cursor-style-blink = false
+shell-integration-features = no-cursor,sudo,title
+mouse-hide-while-typing = true
+copy-on-select = clipboard
+confirm-close-surface = false
+macos-option-as-alt = true
+
+# --- Keybinds -----------------------------------------------------------
+# splits (cmd+d / cmd+shift+d are defaults); move between them vim-style
+keybind = cmd+alt+h=goto_split:left
+keybind = cmd+alt+j=goto_split:bottom
+keybind = cmd+alt+k=goto_split:top
+keybind = cmd+alt+l=goto_split:right
+# drop-down terminal from anywhere
+keybind = global:cmd+grave_accent=toggle_quick_terminal
