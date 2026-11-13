@@ -5,6 +5,9 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME=""            # prompt comes from starship (see bottom)
 plugins=(git)
 
+# Extra completions (_sara, _track, …) — must be on fpath before omz runs compinit
+[[ -d "$HOME/.zfunc" ]] && fpath+=("$HOME/.zfunc")
+
 [[ -f "$ZSH/oh-my-zsh.sh" ]] && source "$ZSH/oh-my-zsh.sh"
 
 # --- Environment -----------------------------------------------------------
@@ -28,3 +31,8 @@ done
 
 # --- Prompt ----------------------------------------------------------------
 command -v starship >/dev/null 2>&1 && eval "$(starship init zsh)"
+
+# Must be sourced last so it sees every widget defined above
+SH="/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+[[ -f "$SH" ]] && source "$SH"
+unset SH

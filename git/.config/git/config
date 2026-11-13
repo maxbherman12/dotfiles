@@ -1,0 +1,47 @@
+# ~/.config/git/config — managed by ~/dotfiles (stow package: git)
+# Identity and credential helpers live in ~/.gitconfig (machine-local, untracked).
+
+[init]
+	defaultBranch = main
+[pull]
+	rebase = true
+[push]
+	autoSetupRemote = true
+[fetch]
+	prune = true
+[rebase]
+	autoStash = true
+[rerere]
+	enabled = true
+[diff]
+	algorithm = histogram
+	colorMoved = default
+[merge]
+	conflictStyle = zdiff3
+
+# delta: side-by-side diffs with TokyoNight diff backgrounds
+[core]
+	pager = delta
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	features = wide          # lazygit runs delta with --features= to skip this
+	navigate = true          # n / N jump between files
+	syntax-theme = Catppuccin Mocha
+	minus-style = syntax "#37222c"
+	minus-emph-style = syntax "#713137"
+	plus-style = syntax "#20303b"
+	plus-emph-style = syntax "#2c5a66"
+[delta "wide"]
+	side-by-side = true
+	line-numbers = true
+
+[alias]
+	st = status -sb
+	sw = switch
+	co = checkout
+	lg = log --graph --pretty=format:'%C(yellow)%h%Creset %s %C(cyan)(%cr)%Creset %C(blue)<%an>%Creset%C(auto)%d'
+	last = log -1 HEAD --stat
+	amend = commit --amend --no-edit
+	undo = reset --soft HEAD~1
+	unstage = restore --staged

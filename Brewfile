@@ -7,6 +7,14 @@ brew "fzf"
 brew "jq"
 brew "starship"
 
+# Shell
+brew "zsh-autosuggestions"
+brew "zsh-syntax-highlighting"
+brew "zoxide"
+brew "eza"
+brew "bat"
+brew "git-delta"
+
 # Neovim / LazyVim
 brew "neovim"
 brew "ripgrep"

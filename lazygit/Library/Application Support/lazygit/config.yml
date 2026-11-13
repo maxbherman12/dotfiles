@@ -1,0 +1,10 @@
+# lazygit config — managed by ~/dotfiles (stow package: lazygit)
+# Press | in lazygit to cycle between these pagers.
+git:
+  pagers:
+    # inline diff (fits lazygit's narrow panel); --features= skips the side-by-side feature in ~/.config/git/config
+    - colorArg: always
+      pager: delta --dark --paging=never --features=
+    # side-by-side, for wide windows
+    - colorArg: always
+      pager: delta --dark --paging=never

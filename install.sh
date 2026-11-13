@@ -13,7 +13,7 @@
 set -euo pipefail
 
 DOTFILES="$(cd "$(dirname "$0")" && pwd)"
-PACKAGES=(zsh bin starship nvim ghostty)
+PACKAGES=(zsh git bin starship nvim ghostty lazygit)
 STAMP="$(date +%Y%m%d-%H%M%S)"
 
 say() { printf '\033[1;34m==>\033[0m %s\n' "$*"; }

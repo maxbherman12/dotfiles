@@ -6,10 +6,12 @@ Managed with [GNU stow](https://www.gnu.org/software/stow/). Each top-level dire
 | Package    | Links to                                   |
 | ---------- | ------------------------------------------ |
 | `zsh`      | `~/.zshrc`, `~/.zprofile`, `~/.config/zsh/` |
+| `git`      | `~/.config/git/config`, `~/.config/git/ignore` (identity stays in `~/.gitconfig`) |
 | `bin`      | `~/.local/bin/proj-pick`, `~/.local/bin/treehouse-pick` |
 | `starship` | `~/.config/starship.toml`                  |
 | `nvim`     | `~/.config/nvim/` (LazyVim)                |
 | `ghostty`  | `~/.config/ghostty/config.ghostty`         |
+| `lazygit`  | `~/Library/Application Support/lazygit/config.yml` (delta pager, `\|` cycles inline/side-by-side) |
 
 ## New machine
 
@@ -34,12 +36,26 @@ Machine-specific shell config goes in `~/.zshrc.local` (untracked).
 
 Both pickers accept an initial query: `gp mai`, `lw auth`.
 
+| Tool | Usage |
+| ---- | ----- |
+| zoxide | `z dot` jumps to the best-matching dir you've visited, `zi` picks with fzf |
+| fzf | `Ctrl-R` history, `Ctrl-T` insert a file path, `Alt-C` cd into a subdir |
+| autosuggestions | grey ghost text from history, `→` accepts |
+| eza | `ls`, `ll` (long + git status), `la` (with hidden), `lt` (tree) |
+| bat | `cat` with syntax highlighting |
+| delta | git's pager: side-by-side diffs, `n`/`N` jump between files |
+
+Git aliases: `st`, `sw`, `co`, `lg` (graph log), `last`, `amend`, `undo` (soft-reset last commit), `unstage`.
+
 ## Neovim (LazyVim)
 
 - Languages: Python, TypeScript/React, Tailwind (Next.js), Go, JSON, YAML, Markdown, Docker, TOML
 - ESLint + Prettier, nvim-dap debugger (`<leader>d…`), neotest (`<leader>t…`)
 - `jj` → Normal mode
 - oil.nvim: `-` opens the parent dir, `<leader>-` floating oil, `nvim .` opens oil
+- yanky: `[y`/`]y` cycle yank history after a paste, `<leader>p` yank picker
+- treesitter-context: current function/component pinned at the top while scrolling
+- claudecode.nvim (`<leader>a…`): `<leader>ac` toggle Claude, visual `<leader>as` send selection, `<leader>aa`/`<leader>ad` accept/deny diffs
 - First launch installs plugins; run `:Mason` to watch LSPs/debuggers install.
 - Commit `lazy-lock.json` after updating plugins so every machine matches.
 
