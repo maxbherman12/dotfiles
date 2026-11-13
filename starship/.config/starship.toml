@@ -1,53 +1,53 @@
 # ~/.config/starship.toml — managed by ~/dotfiles (stow package: starship)
+# One-line powerline in TokyoNight colors. Needs a Nerd Font.
+#   [ ~/projects/maison ] [ main ✗ ⇡1 ]
 "$schema" = 'https://starship.rs/config-schema.json'
 
 add_newline = true
-command_timeout = 1000
+palette = "tokyonight"
 
 format = """
+[](fg:slate)\
 $directory\
 $git_branch\
-$git_state\
-$git_status\
-$python\
-$nodejs\
-$golang\
-$cmd_duration\
-$line_break\
-$character"""
+${custom.git_dirty}\
+$git_status """
 
+[palettes.tokyonight]
+fg = "#c0caf5"
+slate = "#394b70"
+dark = "#3b4261"
+purple = "#bb9af7"
+cyan = "#7dcfff"
+yellow = "#e0af68"
+green = "#9ece6a"
+red = "#f7768e"
+
+# Outside a repo the directory closes the powerline itself (format);
+# inside one the git segment continues it (repo_root_format).
 [directory]
-truncation_length = 3
-truncate_to_repo = true
-style = "bold cyan"
+truncation_length = 6
+truncate_to_repo = false
+truncation_symbol = "…/"
+style = "fg:fg bg:slate"
+repo_root_style = "bold fg:fg bg:slate"
+format = "[ $path ]($style)[](fg:slate)"
+repo_root_format = "[ $before_root_path]($style)[$repo_root]($repo_root_style)[$path ]($style)"
 
 [git_branch]
-format = "[$symbol$branch]($style) "
-symbol = " "
-style = "bold purple"
+format = "[](fg:slate bg:dark)[  $branch](fg:purple bg:dark)"
 
+# ✗ when there are uncommitted or untracked changes
+[custom.git_dirty]
+when = 'test -n "$(git status --porcelain 2>/dev/null | head -c1)"'
+require_repo = true
+shell = ["sh"]
+format = "[ ✗](bold fg:yellow bg:dark)"
+
+# ahead/behind arrows, then the closing arrow (always renders in a repo)
 [git_status]
-format = '([\[$all_status$ahead_behind\]]($style) )'
-style = "bold red"
-
-[python]
-format = '[${symbol}${version}( \($virtualenv\))]($style) '
-symbol = "py "
-
-[nodejs]
-format = "[$symbol$version]($style) "
-symbol = "node "
-
-[golang]
-format = "[$symbol$version]($style) "
-symbol = "go "
-
-[cmd_duration]
-min_time = 2000
-format = "[took $duration]($style) "
-style = "yellow"
-
-[character]
-success_symbol = "[❯](bold green)"
-error_symbol = "[❯](bold red)"
-vimcmd_symbol = "[❮](bold green)"
+format = "[( $ahead_behind) ](fg:cyan bg:dark)[](fg:dark)"
+ahead = "⇡$count"
+behind = "⇣$count"
+diverged = "⇡$ahead_count⇣$behind_count"
+up_to_date = ""
