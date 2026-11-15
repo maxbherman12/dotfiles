@@ -40,7 +40,7 @@ Both pickers accept an initial query: `gp mai`, `lw auth`.
 | ---- | ----- |
 | zoxide | `z dot` jumps to the best-matching dir you've visited, `zi` picks with fzf |
 | fzf | `Ctrl-R` history, `Ctrl-T` insert a file path, `Alt-C` cd into a subdir |
-| autosuggestions | grey ghost text from history, `→` accepts |
+| autosuggestions | grey ghost text from history, `→` accepts (off by default; uncomment in `tools.zsh`) |
 | eza | `ls`, `ll` (long + git status), `la` (with hidden), `lt` (tree) |
 | bat | `cat` with syntax highlighting |
 | delta | git's pager: side-by-side diffs, `n`/`N` jump between files |

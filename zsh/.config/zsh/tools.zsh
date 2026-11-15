@@ -8,6 +8,7 @@ command -v fzf >/dev/null && source <(fzf --zsh)
 command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
 
 # grey ghost-text suggestions from history; → or End accepts
-[[ -f /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]] &&
-  source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+# disabled; uncomment to re-enable (still installed via Brewfile)
+# [[ -f /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]] &&
+#   source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 # (zsh-syntax-highlighting is sourced at the very end of ~/.zshrc)
